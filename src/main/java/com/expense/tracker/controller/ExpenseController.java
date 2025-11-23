@@ -26,4 +26,10 @@ public class ExpenseController {
         ExpenseResponseDto response = expenseService.createExpense(expenseRequestDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ExpenseResponseDto> getExpenseById(@PathVariable("id") Long id){
+        ExpenseResponseDto dto = expenseService.getExpenseById(id);
+        return ResponseEntity.ok(dto);
+    }
 }

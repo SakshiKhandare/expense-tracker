@@ -7,4 +7,6 @@ import org.springframework.stereotype.Service;
 public interface ExpenseService {
 
     ExpenseResponseDto createExpense(ExpenseRequestDto dto);
+
+    ExpenseResponseDto getExpenseById(Long id);
 }
