@@ -77,4 +77,22 @@ public class ExpenseServiceImpl implements ExpenseService {
         return page.map(mapper::toDto);
     }
 
+    @Override
+    public ExpenseResponseDto updateExpense(Long id, ExpenseRequestDto dto) {
+
+        Expense existing = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Expense not found with id: "+id));
+
+        existing.setAmount(dto.getAmount());
+        existing.setDescription(dto.getDescription());
+        existing.setCategory(dto.getCategory());
+        existing.setExpenseDate(dto.getExpenseDate());
+
+        // @PreUpdate will automatically set updatedAt
+
+        Expense saved = repository.save(existing);
+
+        return mapper.toDto(saved);
+    }
+
 }

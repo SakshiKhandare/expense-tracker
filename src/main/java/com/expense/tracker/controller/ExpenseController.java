@@ -49,4 +49,13 @@ public class ExpenseController {
         Page<ExpenseResponseDto> page = expenseService.getExpenses(category, fromDate, toDate, pageable);
         return ResponseEntity.ok(page);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ExpenseResponseDto> updateExpense(
+            @PathVariable("id") Long id,
+            @Valid @RequestBody ExpenseRequestDto expenseRequestDto
+    ){
+        ExpenseResponseDto updated = expenseService.updateExpense(id, expenseRequestDto);
+        return ResponseEntity.ok(updated);
+    }
 }

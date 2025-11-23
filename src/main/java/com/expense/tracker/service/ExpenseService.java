@@ -4,7 +4,6 @@ import com.expense.tracker.dto.ExpenseRequestDto;
 import com.expense.tracker.dto.ExpenseResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
@@ -15,4 +14,6 @@ public interface ExpenseService {
     ExpenseResponseDto getExpenseById(Long id);
 
     Page<ExpenseResponseDto> getExpenses(String category, LocalDate fromDate, LocalDate toDate, Pageable pageable);
+
+    ExpenseResponseDto updateExpense(Long id, ExpenseRequestDto dto);
 }
