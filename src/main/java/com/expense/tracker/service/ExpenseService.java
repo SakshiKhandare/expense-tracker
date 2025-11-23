@@ -2,6 +2,8 @@ package com.expense.tracker.service;
 
 import com.expense.tracker.dto.ExpenseRequestDto;
 import com.expense.tracker.dto.ExpenseResponseDto;
+import com.expense.tracker.dto.PatchExpenseRequestDto;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,4 +18,6 @@ public interface ExpenseService {
     Page<ExpenseResponseDto> getExpenses(String category, LocalDate fromDate, LocalDate toDate, Pageable pageable);
 
     ExpenseResponseDto updateExpense(Long id, ExpenseRequestDto dto);
+
+    ExpenseResponseDto partiallyUpdateExpense(Long id, PatchExpenseRequestDto dto);
 }

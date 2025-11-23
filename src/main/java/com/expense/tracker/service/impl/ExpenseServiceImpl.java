@@ -2,6 +2,7 @@ package com.expense.tracker.service.impl;
 
 import com.expense.tracker.dto.ExpenseRequestDto;
 import com.expense.tracker.dto.ExpenseResponseDto;
+import com.expense.tracker.dto.PatchExpenseRequestDto;
 import com.expense.tracker.entity.Expense;
 import com.expense.tracker.exception.ResourceNotFoundException;
 import com.expense.tracker.mapper.ExpenseMapper;
@@ -89,6 +90,33 @@ public class ExpenseServiceImpl implements ExpenseService {
         existing.setExpenseDate(dto.getExpenseDate());
 
         // @PreUpdate will automatically set updatedAt
+
+        Expense saved = repository.save(existing);
+
+        return mapper.toDto(saved);
+    }
+
+    @Override
+    public ExpenseResponseDto partiallyUpdateExpense(Long id, PatchExpenseRequestDto dto) {
+
+        Expense existing = repository.findById(id)
+                .orElseThrow(() ->new ResourceNotFoundException("Expense not found with id: "+id));
+
+        if(dto.getAmount() != null){
+            existing.setAmount(dto.getAmount());
+        }
+
+        if(dto.getDescription() != null){
+            existing.setDescription(dto.getDescription());
+        }
+
+        if(dto.getCategory() != null){
+            existing.setCategory(dto.getCategory());
+        }
+
+        if(dto.getExpenseDate() != null){
+            existing.setExpenseDate(dto.getExpenseDate());
+        }
 
         Expense saved = repository.save(existing);
 

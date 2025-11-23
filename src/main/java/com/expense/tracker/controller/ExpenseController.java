@@ -2,6 +2,7 @@ package com.expense.tracker.controller;
 
 import com.expense.tracker.dto.ExpenseRequestDto;
 import com.expense.tracker.dto.ExpenseResponseDto;
+import com.expense.tracker.dto.PatchExpenseRequestDto;
 import com.expense.tracker.repository.ExpenseRepository;
 import com.expense.tracker.service.ExpenseService;
 import jakarta.validation.Valid;
@@ -56,6 +57,15 @@ public class ExpenseController {
             @Valid @RequestBody ExpenseRequestDto expenseRequestDto
     ){
         ExpenseResponseDto updated = expenseService.updateExpense(id, expenseRequestDto);
+        return ResponseEntity.ok(updated);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ExpenseResponseDto> partiallyUpdateExpense(
+            @PathVariable("id") Long id,
+            @Valid @RequestBody PatchExpenseRequestDto patchExpenseRequestDto
+    ){
+        ExpenseResponseDto updated = expenseService.partiallyUpdateExpense(id, patchExpenseRequestDto);
         return ResponseEntity.ok(updated);
     }
 }
