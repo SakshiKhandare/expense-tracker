@@ -123,4 +123,13 @@ public class ExpenseServiceImpl implements ExpenseService {
         return mapper.toDto(saved);
     }
 
+    @Override
+    public void deleteExpense(Long id) {
+
+        Expense existing = repository.findById(id)
+                .orElseThrow(() ->new ResourceNotFoundException("Expense not found with id: "+id));
+
+        repository.deleteById(id);
+    }
+
 }

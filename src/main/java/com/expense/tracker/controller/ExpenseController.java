@@ -68,4 +68,10 @@ public class ExpenseController {
         ExpenseResponseDto updated = expenseService.partiallyUpdateExpense(id, patchExpenseRequestDto);
         return ResponseEntity.ok(updated);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteExpense(@PathVariable("id") Long id){
+        expenseService.deleteExpense(id);
+        return ResponseEntity.noContent().build();
+    }
 }

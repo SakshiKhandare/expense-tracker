@@ -20,4 +20,6 @@ public interface ExpenseService {
     ExpenseResponseDto updateExpense(Long id, ExpenseRequestDto dto);
 
     ExpenseResponseDto partiallyUpdateExpense(Long id, PatchExpenseRequestDto dto);
+
+    void deleteExpense(Long id);
 }
