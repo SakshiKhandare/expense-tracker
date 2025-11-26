@@ -2,6 +2,7 @@ package com.expense.tracker.service;
 
 import com.expense.tracker.dto.ExpenseRequestDto;
 import com.expense.tracker.dto.ExpenseResponseDto;
+import com.expense.tracker.dto.ExpenseSummaryDto;
 import com.expense.tracker.dto.PatchExpenseRequestDto;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -22,4 +23,6 @@ public interface ExpenseService {
     ExpenseResponseDto partiallyUpdateExpense(Long id, PatchExpenseRequestDto dto);
 
     void deleteExpense(Long id);
+
+    ExpenseSummaryDto getSummary(LocalDate fromDate, LocalDate toDate, String category, boolean includeCategoryBreakdown);
 }

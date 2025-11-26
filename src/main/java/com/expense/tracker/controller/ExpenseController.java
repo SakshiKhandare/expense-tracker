@@ -2,6 +2,7 @@ package com.expense.tracker.controller;
 
 import com.expense.tracker.dto.ExpenseRequestDto;
 import com.expense.tracker.dto.ExpenseResponseDto;
+import com.expense.tracker.dto.ExpenseSummaryDto;
 import com.expense.tracker.dto.PatchExpenseRequestDto;
 import com.expense.tracker.repository.ExpenseRepository;
 import com.expense.tracker.service.ExpenseService;
@@ -73,5 +74,16 @@ public class ExpenseController {
     public ResponseEntity<Void> deleteExpense(@PathVariable("id") Long id){
         expenseService.deleteExpense(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/summary")
+    public ResponseEntity<ExpenseSummaryDto> getSummary(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+            @RequestParam(required = false) String category,
+            @RequestParam(defaultValue = "false") boolean includeCategoryBreakdown
+    ){
+        ExpenseSummaryDto summary = expenseService.getSummary(fromDate, toDate, category, includeCategoryBreakdown);
+        return ResponseEntity.ok(summary);
     }
 }
