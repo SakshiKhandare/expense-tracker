@@ -1,9 +1,6 @@
 package com.expense.tracker.service.impl;
 
-import com.expense.tracker.dto.ExpenseRequestDto;
-import com.expense.tracker.dto.ExpenseResponseDto;
-import com.expense.tracker.dto.ExpenseSummaryDto;
-import com.expense.tracker.dto.PatchExpenseRequestDto;
+import com.expense.tracker.dto.*;
 import com.expense.tracker.entity.Expense;
 import com.expense.tracker.exception.ResourceNotFoundException;
 import com.expense.tracker.mapper.ExpenseMapper;
@@ -15,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collector;
@@ -201,6 +200,54 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         The method returns an ExpenseSummaryDto containing these aggregated results, providing a simple way to analyze spending patterns over a selected time range or category.
          */
+    }
+
+    @Override
+    public MonthlySummaryDto getMonthlySummary(boolean includeCategoryBreakdown) {
+
+        List<Expense> all = repository.findAll();
+
+        Map<String, List<Expense>> grouped = all.stream()
+                .collect(Collectors.groupingBy(
+                        e -> e.getExpenseDate().getYear() + "-" +
+                                String.format("%02d", e.getExpenseDate().getMonthValue())
+                ));
+
+        List<MonthlySummaryDto.MonthlySummaryItem> items = new ArrayList<>();
+
+        for(Map.Entry<String, List<Expense>> entry: grouped.entrySet()){
+
+            String yearMonth = entry.getKey();
+            List<Expense> monthExpenses = entry.getValue();
+
+            double totalAmount = monthExpenses.stream()
+                    .mapToDouble(e -> e.getAmount() == null ? 0.0 : e.getAmount())
+                    .sum();
+
+            long totalExpenses = monthExpenses.size();
+
+            Map<String, Double> breakdown = null;
+            if(includeCategoryBreakdown){
+                breakdown = monthExpenses.stream()
+                        .collect(Collectors.groupingBy(
+                                Expense::getCategory,
+                                Collectors.summingDouble(e -> e.getAmount() == null ? 0.0 : e.getAmount())
+                        ));
+            }
+
+            MonthlySummaryDto.MonthlySummaryItem item =
+                    new MonthlySummaryDto.MonthlySummaryItem(
+                            yearMonth,
+                            totalAmount,
+                            totalExpenses,
+                            breakdown
+                    );
+
+            items.add(item);
+        }
+        items.sort(Comparator.comparing(MonthlySummaryDto.MonthlySummaryItem::getYearMonth).reversed());
+
+        return new MonthlySummaryDto(items);
     }
 
 }

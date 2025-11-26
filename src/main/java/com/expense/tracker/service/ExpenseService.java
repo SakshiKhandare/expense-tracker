@@ -1,9 +1,6 @@
 package com.expense.tracker.service;
 
-import com.expense.tracker.dto.ExpenseRequestDto;
-import com.expense.tracker.dto.ExpenseResponseDto;
-import com.expense.tracker.dto.ExpenseSummaryDto;
-import com.expense.tracker.dto.PatchExpenseRequestDto;
+import com.expense.tracker.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,4 +22,6 @@ public interface ExpenseService {
     void deleteExpense(Long id);
 
     ExpenseSummaryDto getSummary(LocalDate fromDate, LocalDate toDate, String category, boolean includeCategoryBreakdown);
+
+    MonthlySummaryDto getMonthlySummary(boolean includeCategoryBreakdown);
 }

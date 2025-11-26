@@ -1,9 +1,6 @@
 package com.expense.tracker.controller;
 
-import com.expense.tracker.dto.ExpenseRequestDto;
-import com.expense.tracker.dto.ExpenseResponseDto;
-import com.expense.tracker.dto.ExpenseSummaryDto;
-import com.expense.tracker.dto.PatchExpenseRequestDto;
+import com.expense.tracker.dto.*;
 import com.expense.tracker.repository.ExpenseRepository;
 import com.expense.tracker.service.ExpenseService;
 import jakarta.validation.Valid;
@@ -84,6 +81,14 @@ public class ExpenseController {
             @RequestParam(defaultValue = "false") boolean includeCategoryBreakdown
     ){
         ExpenseSummaryDto summary = expenseService.getSummary(fromDate, toDate, category, includeCategoryBreakdown);
+        return ResponseEntity.ok(summary);
+    }
+
+    @GetMapping("/summary/monthly")
+    public ResponseEntity<MonthlySummaryDto> getMonthlySummary(
+            @RequestParam(required = false, defaultValue = "false") boolean includeCategoryBreakdown
+    ){
+        MonthlySummaryDto summary = expenseService.getMonthlySummary(includeCategoryBreakdown);
         return ResponseEntity.ok(summary);
     }
 }
