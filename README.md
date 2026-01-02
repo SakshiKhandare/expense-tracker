@@ -96,11 +96,31 @@ Run Instructions
 
     src/main/java
     └── com.example.expensetracker
-        ├── controller    -> REST API endpoints
-        ├── service       -> Business logic
-        ├── repository    -> Data access layer
-        ├── entity        -> JPA entities
-        └── dto           -> Request and response models
+        ├── ExpenseTrackerApplication.java
+        │   -> Spring Boot application entry point
+        │
+        ├── controller
+        │   └── ExpenseController.java
+        │       -> Exposes REST APIs for managing expenses
+        │
+        ├── service
+        │   └── ExpenseService.java
+        │       -> Contains business logic for expense operations
+        │
+        ├── repository
+        │   └── ExpenseRepository.java
+        │       -> JPA repository for expense persistence
+        │
+        ├── entity
+        │   └── Expense.java
+        │       -> JPA entity representing an expense record
+        │
+        └── dto
+            ├── ExpenseRequest.java
+            │   -> Request payload for creating or updating expenses
+            └── ExpenseResponse.java
+                -> API response model for expense data
+
 
 ## Why This Project Matters
 The service demonstrates core backend fundamentals such as RESTful API design, relational data modeling, transactional persistence, and clean code organization aligned with real-world backend systems.
